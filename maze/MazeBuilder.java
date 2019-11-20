@@ -1,7 +1,6 @@
-package maze;
+package Maze;
 
-public interface MazeBuilder {
-	
+public interface MazeBuilder
+{
 	public Maze buildMaze(int rows, int columns);
-
 }

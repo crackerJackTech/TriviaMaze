@@ -1,9 +1,10 @@
-package maze;
+package Maze;
 
-public class BuildOnlyMultipleChoiceMaze implements MazeBuilder {
-
+public class BuildOnlyMultipleChoiceMaze implements MazeBuilder
+{
 	@Override
-	public Maze buildMaze(int rows, int columns) {
+	public Maze buildMaze(int rows, int columns)
+	{
 		
 		return null;
 	}
