@@ -17,9 +17,6 @@ namespace EntertainmentMaze.maze
         internal Door SouthDoor { get; set; } //= new Door();
         [DataMember]
         internal Door WestDoor { get; set; } //= new Door();
-        [DataMember]
-
-        public List<Door> ListOfDoors;
 
         public int RowLocation { get; }
         public int ColumnLocation { get; }
@@ -35,14 +32,6 @@ namespace EntertainmentMaze.maze
             EastDoor = new Door();
             SouthDoor = new Door();
             WestDoor = new Door();
-
-            ListOfDoors = new List<Door>()
-            {
-                NorthDoor,
-                EastDoor,
-                SouthDoor,
-                WestDoor
-            };
 
             CreateRoomDescription(numberOfTotalRows, numberOfTotalColumns);
         }

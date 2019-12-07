@@ -15,9 +15,7 @@ namespace EntertainmentMaze.Database
             ListOfQuestions = ReadData();
         }
 
-        //NEED TO MAKE DYNAMIC
-        //private static readonly string connectionString = @"Data Source = C:\Users\Sam\source\repos\TriviaMaze_cs\TriviaMaze\EntertainmentMaze\bin\TriviaDatabase.db;";
-        private static readonly string connectionString = @"Data Source = X:\Documents\Repos\EntertainmentMaze\TriviaMaze\EntertainmentMaze\bin\TriviaDatabase.db;";
+        private static readonly string connectionString = @"Data Source = .\Database\TriviaDatabase.db";
         private static readonly string cmdString = "SELECT * FROM QUESTION;";
 
         private static List<Question> ReadData()

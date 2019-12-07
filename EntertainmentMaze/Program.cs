@@ -102,6 +102,8 @@ namespace EntertainmentMaze
                     {
                         selection = 0;
                     }
+
+
                 } while (selection == 0);
 
                 switch (selection)
@@ -128,6 +130,20 @@ namespace EntertainmentMaze
                     default:
                         PlayResumeMenuOption = "Resume";
                         return;
+                }
+
+                if(!(playerMaze.IsSolvable())) 
+                {
+                    Console.WriteLine($"Sorry, {newPlayer.GetFirstName()} {newPlayer.GetLastName()} you have lost!");
+                    Console.WriteLine();
+                    break;
+                }
+
+                if (playerMaze.GetLocation() == playerMaze.GetExitLocationOfMaze())
+                {
+                    Console.WriteLine($"Congratulations, {newPlayer.GetFirstName()} {newPlayer.GetLastName()} you have won!");
+                    Console.WriteLine();
+                    break;
                 }
             }
         }

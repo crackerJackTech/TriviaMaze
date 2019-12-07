@@ -7,7 +7,7 @@ using System.Text;
 namespace EntertainmentMaze.maze
 {
     [DataContract]
-    public class Maze //: ISerializable
+    public class Maze
     {
         private enum Location
         {
@@ -27,8 +27,8 @@ namespace EntertainmentMaze.maze
         [DataMember]
         private Room[][] surrogateArray;
 
-        public static MazeBuilder CreateBuilder() => new MazeBuilder();
         private Room GetHeroLocation() => (_Rooms[PlayerLocation[(int)Location.Row], PlayerLocation[(int)Location.Column]]);
+        private Room ExitLocationOfMaze() => (_Rooms[Rows - 1, Columns - 1]);
 
         private int MoveRowUp() => PlayerLocation[(int)Location.Row] - 1;
         private int MoveRowDown() => PlayerLocation[(int)Location.Row] + 1;
@@ -36,14 +36,6 @@ namespace EntertainmentMaze.maze
         private int MoveColumnRight() => PlayerLocation[(int)Location.Column] + 1;
         private int SameRow() => PlayerLocation[(int)Location.Row];
         private int SameColumn() => PlayerLocation[(int)Location.Column];
-
-
-        public Maze(int rows, int columns, Player player)
-        {
-            Rows = rows;
-            Columns = columns;
-            _Player = player;
-        }
 
         public Maze() { }
 
@@ -70,21 +62,31 @@ namespace EntertainmentMaze.maze
             return GetHeroLocation();
         }
 
+        internal Room GetExitLocationOfMaze() => ExitLocationOfMaze();
+
+        internal bool IsSolvable()
+        {
+            return FindPath(SameRow(), SameColumn());
+        }
+
+        private bool FindPath(int playerRowLocation, int playerColumnLocation)
+        {
+            if (_Rooms[playerRowLocation, playerColumnLocation] is null) return false;
+            if (_Rooms[playerRowLocation, playerColumnLocation] == ExitLocationOfMaze()) return true;
+            if (FindPath(playerRowLocation + 1, playerColumnLocation)) return true;
+            if (FindPath(SameRow(), MoveColumnRight())) return true;
+            if (FindPath(playerRowLocation - 1, SameColumn())) return true;
+            if (FindPath(SameRow(), MoveColumnLeft())) return true;
+            return false;
+
+        }
+
+
         private void SetHeroLocation(int rowLocation, int columnLocation)
         {
             PlayerLocation[(int)Location.Row] = rowLocation;
             PlayerLocation[(int)Location.Column] = columnLocation;
             GetHeroLocation().SetPlayerInRoom();
-        }
-
-        public int GetRows()
-        {
-            return Rows;
-        }
-        
-        public int GetColumns()
-        {
-            return Columns;
         }
         
         public void MoveHero(String direction)

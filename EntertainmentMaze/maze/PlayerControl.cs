@@ -11,7 +11,7 @@ namespace EntertainmentMaze.maze
             switch (movementDirection)
             {
                 case "N":
-                    if ((playerMaze.GetLocation().NorthDoor.GetDoorStatus()))
+                    if (playerMaze.GetLocation().NorthDoor is null || (playerMaze.GetLocation().NorthDoor.GetDoorStatus()))
                     {
                         Console.WriteLine("This Door is locked! You cannot go through here.");
                         return;
@@ -22,7 +22,7 @@ namespace EntertainmentMaze.maze
                     }
                     else
                     {
-                        if (QuestionAttempt(playerMaze.GetLocation().NorthDoor.DisplayQuestion(), playerMaze.GetLocation().NorthDoor.DisplayAnswer()) is true)
+                        if (QuestionAttempt(playerMaze.GetLocation().NorthDoor.DisplayQuestion(), playerMaze.GetLocation().NorthDoor.DisplayAnswer()))
                         {
                             playerMaze.GetLocation().NorthDoor.OpenDoor();
                             playerMaze.MoveHero("N");
@@ -35,7 +35,7 @@ namespace EntertainmentMaze.maze
                     }
                     return;
                 case "E":
-                    if (playerMaze.GetLocation().EastDoor.GetDoorStatus())
+                    if (playerMaze.GetLocation().EastDoor is null || playerMaze.GetLocation().EastDoor.GetDoorStatus())
                     {
                         Console.WriteLine("This Door is locked! You cannot go through here.");
                         return;
@@ -46,7 +46,7 @@ namespace EntertainmentMaze.maze
                     }
                     else
                     {
-                        if (QuestionAttempt(playerMaze.GetLocation().EastDoor.DisplayQuestion(), playerMaze.GetLocation().EastDoor.DisplayAnswer()) is true)
+                        if (QuestionAttempt(playerMaze.GetLocation().EastDoor.DisplayQuestion(), playerMaze.GetLocation().EastDoor.DisplayAnswer()))
                         {
                             playerMaze.GetLocation().EastDoor.OpenDoor();
                             playerMaze.MoveHero("E");
@@ -59,7 +59,7 @@ namespace EntertainmentMaze.maze
                     }
                     return;
                 case "S":
-                    if (playerMaze.GetLocation().SouthDoor.GetDoorStatus() is true)
+                    if (playerMaze.GetLocation().SouthDoor is null || playerMaze.GetLocation().SouthDoor.GetDoorStatus())
                     {
                         Console.WriteLine("This Door is locked! You cannot go through here.");
                         return;
@@ -70,7 +70,7 @@ namespace EntertainmentMaze.maze
                     }
                     else
                     {
-                        if (QuestionAttempt(playerMaze.GetLocation().SouthDoor.DisplayQuestion(), playerMaze.GetLocation().SouthDoor.DisplayAnswer()) is true)
+                        if (QuestionAttempt(playerMaze.GetLocation().SouthDoor.DisplayQuestion(), playerMaze.GetLocation().SouthDoor.DisplayAnswer()))
                         {
                             playerMaze.GetLocation().SouthDoor.OpenDoor();
                             playerMaze.MoveHero("S");
@@ -83,7 +83,7 @@ namespace EntertainmentMaze.maze
                     }
                     return;
                 case "W":
-                    if (playerMaze.GetLocation().WestDoor.GetDoorStatus() is true)
+                    if (playerMaze.GetLocation().WestDoor is null || playerMaze.GetLocation().WestDoor.GetDoorStatus())
                     {
                         Console.WriteLine("This Door is locked! You cannot go through here.");
                         return;
@@ -94,7 +94,7 @@ namespace EntertainmentMaze.maze
                     }
                     else
                     {
-                        if (QuestionAttempt(playerMaze.GetLocation().WestDoor.DisplayQuestion(), playerMaze.GetLocation().WestDoor.DisplayAnswer()) is true)
+                        if (QuestionAttempt(playerMaze.GetLocation().WestDoor.DisplayQuestion(), playerMaze.GetLocation().WestDoor.DisplayAnswer()))
                         {
                             playerMaze.GetLocation().WestDoor.OpenDoor();
                             playerMaze.MoveHero("W");
