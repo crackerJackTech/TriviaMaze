@@ -182,12 +182,12 @@ namespace EntertainmentMaze
       
         private static string LoadOptions()
         {
-            if (!Directory.Exists(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)+"\\Saves")))
+            if (!Directory.Exists(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)+ "\\ETM_Saves")))
             {
-                Directory.CreateDirectory(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "Saves"));
+                Directory.CreateDirectory(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "ETM_Saves"));
             }
 
-            string[] saveFiles = Directory.GetFiles(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\Saves"));
+            string[] saveFiles = Directory.GetFiles(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\ETM_Saves"));
 
             if (saveFiles is null || saveFiles.Length ==0)
             {
@@ -210,7 +210,7 @@ namespace EntertainmentMaze
                 Console.WriteLine("Please enter a valid save number: ");
             }
 
-            return $"{Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments))}\\Saves\\GameSave{entry}.xml";
+            return $"{Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments))}\\ETM_Saves\\GameSave{entry}.xml";
         }
 
 
@@ -237,7 +237,7 @@ namespace EntertainmentMaze
 
         public static void SaveGame(Maze maze)
         {
-            var curDir = Directory.CreateDirectory(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "Saves"));
+            var curDir = Directory.CreateDirectory(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "ETM_Saves"));
 
             FileInfo[] saveFiles = curDir.GetFiles();
             int SaveCount = saveFiles.Length;

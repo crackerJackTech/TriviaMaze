@@ -66,15 +66,5 @@ namespace EntertainmentMaze.Database
                 }
             }
         }
-
-        public void InputData()
-        {
-
-        }
-
-        private string GetDirForDatabase()
-        {
-            return Directory.GetCurrentDirectory();
-        }
     }
 }
