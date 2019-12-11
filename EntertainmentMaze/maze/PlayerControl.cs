@@ -8,7 +8,6 @@ namespace EntertainmentMaze.maze
     {
         public static void MovementAttempt(Maze playerMaze, string movementDirection)
         {
-            Room[,] rooms = playerMaze.GetRooms();
 
             if(playerMaze is null)
             {
@@ -18,6 +17,8 @@ namespace EntertainmentMaze.maze
             {
                 throw new ArgumentNullException(nameof(movementDirection));
             }
+
+            Room[,] rooms = playerMaze.GetRooms();
 
             switch (movementDirection)
             {
