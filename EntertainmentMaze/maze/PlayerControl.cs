@@ -8,6 +8,8 @@ namespace EntertainmentMaze.maze
     {
         public static void MovementAttempt(Maze playerMaze, string movementDirection)
         {
+            Room[,] rooms = playerMaze.GetRooms();
+
             if(playerMaze is null)
             {
                 throw new ArgumentNullException(nameof(playerMaze));
@@ -40,6 +42,10 @@ namespace EntertainmentMaze.maze
                         else
                         {
                             playerMaze.GetLocation().NorthDoor.LockDoor();
+                            if (!(rooms[playerMaze.GetLocation().RowLocation - 1, playerMaze.GetLocation().ColumnLocation] is null))
+                            {
+                                rooms[playerMaze.GetLocation().RowLocation - 1, playerMaze.GetLocation().ColumnLocation].SouthDoor.LockDoor();
+                            }
                         }
                     }
                     return;
@@ -64,6 +70,10 @@ namespace EntertainmentMaze.maze
                         else
                         {
                             playerMaze.GetLocation().EastDoor.LockDoor();
+                            if(!(rooms[playerMaze.GetLocation().RowLocation, playerMaze.GetLocation().ColumnLocation + 1] is null))
+                            {
+                                rooms[playerMaze.GetLocation().RowLocation, playerMaze.GetLocation().ColumnLocation + 1].WestDoor.LockDoor();
+                            }
                         }
                     }
                     return;
@@ -88,6 +98,10 @@ namespace EntertainmentMaze.maze
                         else
                         {
                             playerMaze.GetLocation().SouthDoor.LockDoor();
+                            if (!(rooms[playerMaze.GetLocation().RowLocation + 1, playerMaze.GetLocation().ColumnLocation] is null))
+                            {
+                                rooms[playerMaze.GetLocation().RowLocation + 1, playerMaze.GetLocation().ColumnLocation].NorthDoor.LockDoor();
+                            }
                         }
                     }
                     return;
@@ -112,6 +126,10 @@ namespace EntertainmentMaze.maze
                         else
                         {
                             playerMaze.GetLocation().WestDoor.LockDoor();
+                            if (!(rooms[playerMaze.GetLocation().RowLocation, playerMaze.GetLocation().ColumnLocation - 1] is null))
+                            {
+                                rooms[playerMaze.GetLocation().RowLocation, playerMaze.GetLocation().ColumnLocation - 1].EastDoor.LockDoor();
+                            }
                         }
                     }
                     return;

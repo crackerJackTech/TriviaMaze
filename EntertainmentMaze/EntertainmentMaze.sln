@@ -7,8 +7,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EntertainmentMaze", "Entert
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EntertainmentMazeTests", "..\EntertainmentMazeTests\EntertainmentMazeTests.csproj", "{1DC0B7AF-DC29-49C2-9330-23C30B64D91C}"
 EndProject
-Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "EntertainmentTriviaMaze", "F:\Users\Sam\Documents\School Documents\F - Programming\CSCD350\ETMInstaller\EntertainmentTriviaMaze\EntertainmentTriviaMaze.vdproj", "{4414FE0D-7A8F-48FE-9E32-52D5E43CDF77}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -23,8 +21,6 @@ Global
 		{1DC0B7AF-DC29-49C2-9330-23C30B64D91C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1DC0B7AF-DC29-49C2-9330-23C30B64D91C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1DC0B7AF-DC29-49C2-9330-23C30B64D91C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{4414FE0D-7A8F-48FE-9E32-52D5E43CDF77}.Debug|Any CPU.ActiveCfg = Debug
-		{4414FE0D-7A8F-48FE-9E32-52D5E43CDF77}.Release|Any CPU.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

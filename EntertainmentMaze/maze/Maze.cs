@@ -26,11 +26,17 @@ namespace EntertainmentMaze.maze
         public int Columns { get; set; }
         [DataMember]
         private Room[][] surrogateArray;
-
-        private int lastTraversedRow;
-        private int lastTraversedCol;
-        //private bool[,] _Traversed;
-        private List<(int, int)> _Traversed;
+        [DataMember]
+        private List<Coordinate> path;
+        private bool[,] traversed;
+        [DataMember]
+        private List<(int,int)> shifts = new List<(int, int)>(5)
+        {
+            (-1,0),
+            (0,1),
+            (1,0),
+            (0,-1)
+        };
 
         private Room GetHeroLocation() => (_Rooms[PlayerLocation[(int)Location.Row], PlayerLocation[(int)Location.Column]]);
         private Room ExitLocationOfMaze() => (_Rooms[Rows - 1, Columns - 1]);
@@ -67,30 +73,92 @@ namespace EntertainmentMaze.maze
             return GetHeroLocation();
         }
 
-        internal List<(int,int)> IsSolvable()
+        public Room[,] GetRooms()
         {
-            _Traversed = new List<(int, int)>(Rows*Columns);
-            _Traversed.Add((SameRow(), SameColumn()));
+            return _Rooms;
+        }
 
-            if(!FindPath(SameRow(), SameColumn()))
+        internal List<Coordinate> IsSolvable()
+        {
+            path = new List<Coordinate>();
+            traversed = new bool[5,5];
+            Coordinate end = new Coordinate(4, 4);
+            Coordinate playerLocation = new Coordinate(SameRow(), SameColumn());
+            traversed[0, 0] = true;
+            path.Add(playerLocation);
+
+            if (!FindPath(traversed, playerLocation, end, path))
             {
-                _Traversed.Remove((_Traversed.Capacity-1,_Traversed.Capacity-1));
+                path.RemoveAt(path.Count-1);
             }
-
-            return _Traversed;
+            return path;
         }
 
-        internal bool isSolvable()
+        private bool FindPath(bool[,] traversed, Coordinate playerLocation, Coordinate end, List<Coordinate> path)
         {
-           return FindPath(SameRow(), SameColumn());
+            if(playerLocation.row > 4)
+            {
+                playerLocation.row = 4;
+            }
+            if(playerLocation.col > 4)
+            {
+                playerLocation.col = 4;
+            }
+            if (playerLocation.row < 0)
+            {
+                playerLocation.row = 0;
+            }
+            if (playerLocation.col < 0)
+            {
+                playerLocation.col = 0;
+            }
+            if (playerLocation.row == end.row && playerLocation.col == end.col)
+            {
+                return true;
+            }
+            int x = 0;
+
+            foreach((int r,int c) s in shifts)
+            {
+                Coordinate shift = new Coordinate(s.r, s.c);
+
+                if (canTraverse(shift, playerLocation, traversed))
+                {
+                    traversed[playerLocation.row, playerLocation.col] = true;
+                    path.Add(new Coordinate(playerLocation.row + s.r, playerLocation.col + s.c));
+                    playerLocation = new Coordinate(playerLocation.row + s.r, playerLocation.col + s.c);
+
+                    if (FindPath(traversed, playerLocation, end, path))
+                    {
+                        return true;
+                    }
+                    path.RemoveAt(path.Count-1);
+                }
+                x++;
+            }
+            return false;
         }
 
-        private bool FindPath(int playerRowLocation, int playerColumnLocation)
+        private bool canTraverse(Coordinate shift, Coordinate roomLocation, bool[,] traversed)
         {
-            return true;
+            if (shift.row == -1 && shift.col == 0)
+            {
+                return ((!(_Rooms[roomLocation.row, roomLocation.col].NorthDoor is null)) && (_Rooms[roomLocation.row, roomLocation.col].NorthDoor.GetDoorStatus() is false) && (traversed[roomLocation.row + shift.row, roomLocation.col + shift.col] == false));
+            }
+            if (shift.row == 0 && shift.col == 1)
+            {
+                return ((!(_Rooms[roomLocation.row, roomLocation.col].EastDoor is null)) && (_Rooms[roomLocation.row, roomLocation.col].EastDoor.GetDoorStatus() is false) && (traversed[roomLocation.row + shift.row, roomLocation.col + shift.col] == false));
+            }
+            if (shift.row == 1 && shift.col == 0)
+            {
+                return ((!(_Rooms[roomLocation.row, roomLocation.col].SouthDoor is null)) && (_Rooms[roomLocation.row, roomLocation.col].SouthDoor.GetDoorStatus() is false) && (traversed[roomLocation.row + shift.row, roomLocation.col + shift.col] == false));
+            }
+            if (shift.row == 0 && shift.col == -1)
+            {
+                return ((!(_Rooms[roomLocation.row, roomLocation.col].WestDoor is null)) && (_Rooms[roomLocation.row, roomLocation.col].WestDoor.GetDoorStatus() is false) && (traversed[roomLocation.row + shift.row, roomLocation.col + shift.col] == false));
+            }
+            return false;
         }
-
-
 
         public void SetCheatLocation()
         {
@@ -240,6 +308,19 @@ namespace EntertainmentMaze.maze
                     }
                 }
             }
+        }
+    }
+
+    [DataContract]
+    public class Coordinate
+    {
+        [DataMember]
+        public int row, col;
+
+        public Coordinate(int row, int col)
+        {
+            this.row = row;
+            this.col = col;
         }
     }
 }

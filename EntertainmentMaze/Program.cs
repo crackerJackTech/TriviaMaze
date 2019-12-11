@@ -7,13 +7,13 @@ using System.Runtime.Serialization;
 using System.Xml;
 using JsonSerializer = Newtonsoft.Json.JsonSerializer;
 
-/*
- * There is a cheat enabled.
- * When asked which direction you would like to go.
+/*/
+ * There is a cheat at your disposal.
+ * When asked which direction you would like to go,
  * Enter "117" and it will take you one door away from the exit.
- * Must answer next question correctly, if done so you will exit the maze.
- * Purpose: to get close to the exit and simulate answering the "last" needed question correctly.
- */
+ * If you answer the EastDoor's question correctly, you will exit the maze and win.
+ * Purpose: to get close to the exit and simulate answering the "last" needed question correctly with greater ease.
+/*/
 
 namespace EntertainmentMaze
 {
@@ -60,6 +60,7 @@ namespace EntertainmentMaze
             Console.WriteLine("Sam Nixon, Devin Kramer, Cam Sorensen\n");
             Console.WriteLine("-----------------------------------------\n");
         }
+
         private static void Menu()
         {
             while (true)
@@ -148,19 +149,12 @@ namespace EntertainmentMaze
                         return;
                 }
 
-                if((playerMaze.isSolvable() is false))
+                if ((playerMaze.IsSolvable().Count == 0))
                 {
-                    Console.WriteLine($"Sorry, {newPlayer.GetFirstName()} {newPlayer.GetLastName()} you have lost!");
-                    Console.WriteLine();
+                    Console.WriteLine($"\nSorry, {newPlayer.GetFirstName()} {newPlayer.GetLastName()} you have lost!");
+                    Console.WriteLine("There is no way out from here...\n");
                     EndGame();
                 }
-
-/*                if ((playerMaze.IsSolvable() is null))
-                {
-                    Console.WriteLine($"Sorry, {newPlayer.GetFirstName()} {newPlayer.GetLastName()} you have lost!");
-                    Console.WriteLine();
-                    break;
-                }*/
 
                 if (playerMaze.GetLocation() == playerMaze.GetExitLocationOfMaze())
                 {
@@ -188,9 +182,14 @@ namespace EntertainmentMaze
       
         private static string LoadOptions()
         {
-            string curDir = ".\\Saves\\";
-            string[] saveFiles = Directory.GetFiles(curDir);
-            if(saveFiles is null || saveFiles.Length ==0)
+            if (!Directory.Exists(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)+"\\Saves")))
+            {
+                Directory.CreateDirectory(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "Saves"));
+            }
+
+            string[] saveFiles = Directory.GetFiles(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\Saves"));
+
+            if (saveFiles is null || saveFiles.Length ==0)
             {
                 Console.WriteLine("You do not have any saves yet!");
                 return "";
@@ -211,7 +210,7 @@ namespace EntertainmentMaze
                 Console.WriteLine("Please enter a valid save number: ");
             }
 
-            return $"Saves\\GameSave{entry}.xml";
+            return $"{Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments))}\\Saves\\GameSave{entry}.xml";
         }
 
 
@@ -238,13 +237,13 @@ namespace EntertainmentMaze
 
         public static void SaveGame(Maze maze)
         {
-            string curDir = ".\\Saves\\";
-            string[] saveFiles = Directory.GetFiles(curDir);
-            int SaveCount = saveFiles.Length;
+            var curDir = Directory.CreateDirectory(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "Saves"));
 
+            FileInfo[] saveFiles = curDir.GetFiles();
+            int SaveCount = saveFiles.Length;
             var serializer = new JsonSerializer();
-            string SaveFile = $"Saves\\GameSave{SaveCount}.xml";
-            FileStream writer = new FileStream(SaveFile, FileMode.Create);
+            string SaveFile = $"\\GameSave{SaveCount}.xml";
+            FileStream writer = new FileStream(curDir+SaveFile, FileMode.OpenOrCreate);
             DataContractSerializer serialized = new DataContractSerializer(typeof(Maze));
             serialized.WriteObject(writer, playerMaze);
             writer.Close();
